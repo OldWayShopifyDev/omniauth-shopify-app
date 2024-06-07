@@ -1,7 +1,7 @@
 require 'bundler/setup'
 require 'sinatra/base'
 require 'active_support/core_ext/hash'
-require 'omniauth-shopify-oauth2'
+require 'omniauth-shopify-app'
 
 SCOPE = 'read_products,read_orders,read_customers,write_shipping'
 SHOPIFY_API_KEY = ENV['SHOPIFY_API_KEY']

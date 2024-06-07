@@ -1,5 +1,3 @@
-require 'omniauth/strategies/oauth2'
-
 module OmniAuth
   module Strategies
     class Shopify < OmniAuth::Strategies::OAuth2

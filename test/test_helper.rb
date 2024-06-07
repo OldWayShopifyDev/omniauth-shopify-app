@@ -1,6 +1,6 @@
 $: << File.expand_path("../../lib", __FILE__)
 require 'bundler/setup'
-require 'omniauth-shopify-oauth2'
+require 'omniauth-shopify-app'
 
 require 'minitest/autorun'
 require 'rack/session'

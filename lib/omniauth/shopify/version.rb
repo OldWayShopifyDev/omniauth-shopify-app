@@ -1,5 +1,5 @@
 module OmniAuth
   module Shopify
-    VERSION = "2.4.0"
+    VERSION = "1.0.0"
   end
 end

@@ -3,12 +3,12 @@ $:.push File.expand_path('../lib', __FILE__)
 require 'omniauth/shopify/version'
 
 Gem::Specification.new do |s|
-  s.name     = 'omniauth-shopify-oauth2'
+  s.name     = 'omniauth-shopify-app'
   s.version  = OmniAuth::Shopify::VERSION
-  s.authors  = ['Denis Odorcic']
-  s.email    = ['gems@shopify.com']
+  s.authors  = ['Hopper Gee']
+  s.email    = ['hopper.gee@hey.com']
   s.summary  = 'Shopify strategy for OmniAuth'
-  s.homepage = 'https://github.com/Shopify/omniauth-shopify-oauth2'
+  s.homepage = 'https://github.com/OldWayShopifyDev/omniauth-shopify-app'
   s.license = 'MIT'
 
   s.metadata['allowed_push_host'] = 'https://rubygems.org'
@@ -19,7 +19,8 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
   s.required_ruby_version = '>= 2.1.9'
 
-  s.add_runtime_dependency 'omniauth-oauth2', '~> 1.5'
+  s.add_dependency "oauth2",     [">= 1.4", "< 3"]
+  s.add_dependency "omniauth",   "~> 2.0"
   s.add_runtime_dependency 'activesupport'
 
   s.add_development_dependency 'minitest', '~> 5.6'
