@@ -217,10 +217,6 @@ module OmniAuth
         fail!(:failed_to_connect, e)
       end
 
-      def build_access_token
-        @built_access_token ||= super
-      end
-
       def authorize_params
         options.authorize_params[:state] = SecureRandom.hex(24)
 
@@ -275,8 +271,10 @@ module OmniAuth
       end
 
       def build_access_token
+        return @built_access_token unless @built_access_token.nil?
+
         verifier = request.params["code"]
-        client.auth_code.get_token(verifier, {:redirect_uri => callback_url}.merge(token_params.to_hash(:symbolize_keys => true)), deep_symbolize(options.auth_token_params))
+        @built_access_token = client.auth_code.get_token(verifier, {:redirect_uri => callback_url}.merge(token_params.to_hash(:symbolize_keys => true)), deep_symbolize(options.auth_token_params))
       end
 
       def deep_symbolize(options)
