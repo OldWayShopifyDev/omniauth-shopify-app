@@ -64,6 +64,7 @@ module OmniAuth
         },
         :code_challenge_method => "S256",
       }
+      option :oauth_session_key, OmniAuth::Shopify::OAuthSession::KEY
 
       attr_accessor :access_token
 
@@ -199,7 +200,7 @@ module OmniAuth
         end
 
         error = request.params["error_reason"] || request.params["error"]
-        if !options.provider_ignores_state && (request.params["state"].to_s.empty? || request.params["state"] != session.delete("omniauth.state"))
+        if !options.provider_ignores_state && (request.params["state"].to_s.empty? || request.params["state"] != fetch_and_delete_omniauth_state)
           fail!(:csrf_detected, CallbackError.new(:csrf_detected, "CSRF detected"))
         elsif error
           fail!(error, CallbackError.new(request.params["error"], request.params["error_description"] || request.params["error_reason"], request.params["error_uri"]))
@@ -234,6 +235,7 @@ module OmniAuth
 
         session["omniauth.pkce.verifier"] = options.pkce_verifier if options.pkce
         session["omniauth.state"] = params[:state]
+        oauth_session["omniauth.state"] = params[:state]
 
         params[:scope] = normalized_scopes(params[:scope] || DEFAULT_SCOPE).join(SCOPE_DELIMITER)
         params[:grant_options] = ['per-user'] if options[:per_user_permissions]
@@ -293,6 +295,16 @@ module OmniAuth
                             end
         end
         hash
+      end
+
+      def oauth_session
+        env["rack.#{options.oauth_session_key}"] || {}
+      end
+
+      def fetch_and_delete_omniauth_state
+        state_from_session = session.delete("omniauth.state")
+        state_from_oauth_session = oauth_session.delete("omniauth.state")
+        state_from_oauth_session || state_from_session
       end
 
     end
